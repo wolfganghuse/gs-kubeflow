@@ -1,0 +1,8 @@
+bucket:
+  accesskey: access
+  secretkey: secret
+  name: mlpipeline
+objectstore:
+  host: objects.romanticism.cloudnative.nvdlab.net
+  insecure: true
+  region: us-east-1
