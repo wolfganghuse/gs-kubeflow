@@ -34,22 +34,28 @@ spec:
     target:
       kind: ConfigMap
       name: default-install-config.*
-  - patch: |
-      - op: replace
-        path: /spec/servers/0/port/name
-        value: https
-      - op: replace
-        path: /spec/servers/0/port/number
-        value: 443
-      - op: replace
-        path: /spec/servers/0/port/protocol
-        value: HTTPS
-      - op: add
-        path: /spec/servers/0/tls/credentialName
-        value: kubeflow-tls
-      - op: add
-        path: /spec/servers/0/tls/mode
-        value: SIMPLE
+  - patch: | 
+      apiVersion: networking.istio.io/v1beta1
+      kind: Gateway
+      metadata:
+        generation: 1
+        labels:
+          kustomize.toolkit.fluxcd.io/name: kubeflow-instance
+          kustomize.toolkit.fluxcd.io/namespace: kommander
+          release: istio
+        name: istio-ingressgateway
+        namespace: istio-system
+      spec:
+        servers:
+        - hosts:
+          - '*'
+          port:
+            name: https
+            number: 443
+            protocol: HTTPS
+          tls:
+            credentailName: kubeflow-tls
+            mode: Simple  
     target:
       kind: Gateway
       name: istio-ingressgateway
