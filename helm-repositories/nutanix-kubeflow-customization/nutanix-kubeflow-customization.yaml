@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: nai-llm-helm
+  namespace: ${workspaceNamespace}
+  labels:
+    kommander.d2iq.io/dkp-airgapped: supported
+spec:
+  url: "${helmMirrorURL:=https://jesse-gonzalez.github.io/nai-llm-helm/}"
+  interval: 10m
