@@ -1,0 +1,123 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: nai-iep-instance
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  url: https://github.com/nutanix-core/nai-api
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: nai-iep-instance
+  namespace: ${releaseNamespace}
+spec:
+  wait: true
+  interval: 6h
+  sourceRef:
+   kind: GitRepository
+   name: nai-iep-instance
+   namespace: ${releaseNamespace}
+  path: ./manifests/base/nai-components/nai-serving/istio
+  prune: true
+  timeout: 15m0s
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: nai-iep-2-instance
+  namespace: ${releaseNamespace}
+spec:
+  wait: true
+  interval: 6h
+  sourceRef:
+   kind: GitRepository
+   name: nai-iep-instance
+   namespace: ${releaseNamespace}
+  path: ./manifests/base/nai-components/nai-serving/knative-serving/crds
+  prune: true
+  timeout: 15m0s
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: nai-iep-3-instance
+  namespace: ${releaseNamespace}
+spec:
+  wait: true
+  interval: 6h
+  sourceRef:
+   kind: GitRepository
+   name: nai-iep-instance
+   namespace: ${releaseNamespace}
+  path: ./manifests/base/nai-components/nai-serving/knative-serving
+  prune: true
+  timeout: 15m0s
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: nai-iep-4-instance
+  namespace: ${releaseNamespace}
+spec:
+  wait: true
+  interval: 6h
+  sourceRef:
+   kind: GitRepository
+   name: nai-iep-instance
+   namespace: ${releaseNamespace}
+  path: ./manifests/base/nai-components/nai-serving/istio-knative-controller
+  prune: true
+  timeout: 15m0s
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: nai-iep-5-instance
+  namespace: ${releaseNamespace}
+spec:
+  wait: true
+  interval: 6h
+  sourceRef:
+   kind: GitRepository
+   name: nai-iep-instance
+   namespace: ${releaseNamespace}
+  path: ./manifests/base/nai-components/nai-serving/kserve
+  prune: true
+  timeout: 15m0s
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: nai-iep-5-instance
+  namespace: ${releaseNamespace}
+spec:
+  wait: true
+  interval: 6h
+  sourceRef:
+   kind: GitRepository
+   name: nai-iep-instance
+   namespace: ${releaseNamespace}
+  path: ./manifests/base/nai-components/nai-serving/kserve/kserve-cluster-resources
+  prune: true
+  timeout: 15m0s
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: nai-iep-6-instance
+  namespace: ${releaseNamespace}
+spec:
+  wait: true
+  interval: 6h
+  sourceRef:
+   kind: GitRepository
+   name: nai-iep-instance
+   namespace: ${releaseNamespace}
+  path: ./manifests/overlays/release
+  prune: true
+  timeout: 15m0s
