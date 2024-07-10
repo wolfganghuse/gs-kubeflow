@@ -60,7 +60,7 @@ spec:
         kind: HelmRepository
         name: jesse-gonzalez.github.io
         namespace: ${workspaceNamespace}
-      version: "0.1.0"
+      version: "0.1.1"
   interval: 30m
   timeout: 20m
   install:
