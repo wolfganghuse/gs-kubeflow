@@ -17,6 +17,7 @@ metadata:
   name: kubeflow-instance
   namespace: ${releaseNamespace}
 spec:
+  wait: true
   patches:
   - patch: |
       - op: replace
@@ -33,12 +34,70 @@ spec:
     target:
       kind: ConfigMap
       name: default-install-config.*
+  - patch: | 
+      apiVersion: networking.istio.io/v1beta1
+      kind: Gateway
+      metadata:
+        generation: 1
+        labels:
+          kustomize.toolkit.fluxcd.io/name: kubeflow-instance
+          kustomize.toolkit.fluxcd.io/namespace: kommander
+          release: istio
+        name: istio-ingressgateway
+        namespace: istio-system
+      spec:
+        servers:
+        - hosts:
+          - '*'
+          port:
+            name: https
+            number: 443
+            protocol: HTTPS
+          tls:
+            credentailName: kubeflow-tls
+            mode: Simple  
+    target:
+      kind: Gateway
+      name: istio-ingressgateway
+      namespace: istio-system
   interval: 6h
   timeout: 15m0s
   path: ./example
   prune: true
-  serviceAccountName: ${releaseNamespace}
   sourceRef:
    kind: GitRepository
    name: kubeflow-instance
    namespace: ${releaseNamespace}
+---
+#create self-signed certificate
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nutanix-kubeflow-customization
+  namespace: ${releaseNamespace}
+spec:
+  targetNamespace: ${releaseNamespace}
+  chart:
+    spec:
+      chart: nutanix-kubeflow-customization
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: jesse-gonzalez.github.io
+        namespace: ${workspaceNamespace}
+      version: "0.1.0"
+  interval: 30m
+  timeout: 20m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  valuesFrom:
+    - kind: ConfigMap
+      name: nutanix-kubeflow-customization-0.1.0-defaults
+  releaseName: nutanix-kubeflow-customization
+---
+#kustomize for nutanix objects
