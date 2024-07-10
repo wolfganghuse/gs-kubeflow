@@ -42,3 +42,39 @@ spec:
    kind: GitRepository
    name: kubeflow-instance
    namespace: ${releaseNamespace}
+---
+#create self-signed certificate
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: kubeflow-instance
+  namespace: ${releaseNamespace}
+spec:
+  wait: true
+  patches:
+  - patch: |
+      - op: replace
+        path: /spec/servers/0/port/name
+        value: https
+      - op: replace
+        path: /spec/servers/0/port/number
+        value: 443
+      - op: replace
+        path: /spec/servers/0/port/protocol
+        value: HTTPS
+      - op: add
+        path: /spec/servers/0/tls/credentialName
+        value: kubeflow-tls
+      - op: add
+        path: /spec/servers/0/tls/mode
+        value: SIMPLE
+    target:
+      kind: Gateway
+      name: istio-ingressgateway
+      namespace: istio-system
+
+---
+#helm chart for kubeflow-customization
+---
+#kustomize for nutanix objects
