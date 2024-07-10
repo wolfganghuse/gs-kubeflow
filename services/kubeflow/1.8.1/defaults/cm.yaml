@@ -12,7 +12,7 @@ data:
       name: mlpipeline
     objectstore:
       host: objects.romanticism.cloudnative.nvdlab.net
-      insecure: true
+      insecure: 'true'
       region: us-east-1
     ingress:
       ip: 10.122.7.109
