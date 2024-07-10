@@ -8,7 +8,7 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-  url: https://github.com/nutanix-core/nai-api
+  url: ssh://git@github.com/nutanix-core/nai-api
   secretRef:
     name: nai-iep-auth
 ---
