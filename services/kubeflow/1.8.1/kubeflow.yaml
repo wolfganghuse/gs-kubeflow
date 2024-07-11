@@ -46,33 +46,33 @@ spec:
 ---
 #create self-signed certificate
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: nutanix-kubeflow-customization
-  namespace: ${releaseNamespace}
-spec:
-  targetNamespace: ${releaseNamespace}
-  chart:
-    spec:
-      chart: nutanix-kubeflow-customization
-      interval: 15m
-      sourceRef:
-        kind: HelmRepository
-        name: jesse-gonzalez.github.io
-        namespace: ${workspaceNamespace}
-      version: "0.1.1"
-  interval: 30m
-  timeout: 20m
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-  valuesFrom:
-    - kind: ConfigMap
-      name: nutanix-kubeflow-customization-0.1.0-defaults
-  releaseName: nutanix-kubeflow-customization
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: nutanix-kubeflow-customization
+#   namespace: ${releaseNamespace}
+# spec:
+#   targetNamespace: ${releaseNamespace}
+#   chart:
+#     spec:
+#       chart: nutanix-kubeflow-customization
+#       interval: 15m
+#       sourceRef:
+#         kind: HelmRepository
+#         name: jesse-gonzalez.github.io
+#         namespace: ${workspaceNamespace}
+#       version: "0.1.1"
+#   interval: 30m
+#   timeout: 20m
+#   install:
+#     remediation:
+#       retries: 3
+#   upgrade:
+#     remediation:
+#       retries: 3
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: nutanix-kubeflow-customization-0.1.0-defaults
+#   releaseName: nutanix-kubeflow-customization
 ---
 #kustomize for nutanix objects
