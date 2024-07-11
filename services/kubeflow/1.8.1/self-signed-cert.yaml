@@ -11,4 +11,4 @@ spec:
   issuerRef:
     kind: ClusterIssuer
     name: selfsigned-issuer
-  secretName: nai-selfsigned-cert
+  secretName: kubeflow-tls
