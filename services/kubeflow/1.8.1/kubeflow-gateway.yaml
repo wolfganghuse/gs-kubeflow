@@ -10,15 +10,6 @@ spec:
   - hosts:
     - '*'
     port:
-      name: http
-      number: 80
-      protocol: HTTP
-    # Upgrade HTTP to HTTPS
-    tls:
-      httpsRedirect: true
-  - hosts:
-    - '*'
-    port:
       name: https
       number: 443
       protocol: HTTPS
