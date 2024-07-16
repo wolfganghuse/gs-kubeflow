@@ -288,7 +288,7 @@ metadata:
   namespace: kommander-flux
 spec:
   interval: 10m
-  url: "${helmMirrorURL:=https://raw.githubusercontent.com/arbhoj/gs-kubeflow/helmtest/kubeflow-ntnx-charts}"
+  url: "${helmMirrorURL:=https://raw.githubusercontent.com/wolfganghuse/gs-kubeflow/kubeflow-ntnx/kubeflow-ntnx-charts}"
 ---
 # Note: The name of the release must match the services folder name for the overrides to work
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
